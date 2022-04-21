@@ -1,4 +1,4 @@
-package com.cairone.imgextract;
+package com.cairone.textract;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

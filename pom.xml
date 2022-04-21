@@ -12,10 +12,10 @@
 	</parent>
 
 	<groupId>com.cairone</groupId>
-	<artifactId>poc-extract-images-from-pdf</artifactId>
+	<artifactId>poc-aws-textract</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>image-extractor</name>
-	<description>Extract images from pdf</description>
+	<name>poc-aws-textact</name>
+	<description>Extract form data from pdf</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -35,6 +35,10 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
