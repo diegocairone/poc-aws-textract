@@ -25,8 +25,8 @@ public class FileUploadCtrl {
     @ResponseStatus(HttpStatus.CREATED)
     public void handleUploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            byte[] bytes = file.getBytes();
-            fileService.doYourTrick(bytes);
+            
+            fileService.doYourTrick(file.getInputStream());
             
         } catch (IOException e) {
             e.printStackTrace();

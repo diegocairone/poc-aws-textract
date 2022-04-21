@@ -1,7 +1,18 @@
 package com.cairone.textract.service;
 
-import org.apache.tomcat.util.codec.binary.Base64;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
 import org.springframework.stereotype.Service;
+
+import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
+import com.amazonaws.services.textract.AmazonTextract;
+import com.amazonaws.services.textract.AmazonTextractClientBuilder;
+import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
+import com.amazonaws.services.textract.model.AnalyzeDocumentResult;
+import com.amazonaws.services.textract.model.Document;
+import com.amazonaws.util.IOUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,8 +20,29 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FileService {
 
-    public void doYourTrick(byte[] bytes) {
-        String encodedFile = Base64.encodeBase64String(bytes);
-        log.info(encodedFile);
+    public void doYourTrick(InputStream is) {
+        
+        try {
+            ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(is));
+            
+            EndpointConfiguration endpoint = new EndpointConfiguration(
+                    "https://textract.us-east-1.amazonaws.com", "us-east-1");
+            
+            AmazonTextract client = AmazonTextractClientBuilder.standard()
+                    .withEndpointConfiguration(endpoint).build();
+            
+            AnalyzeDocumentRequest request = new AnalyzeDocumentRequest()
+                    .withFeatureTypes("FORMS")
+                    .withDocument(new Document().withBytes(imageBytes));
+            
+            AnalyzeDocumentResult result = client.analyzeDocument(request);
+            
+            System.out.println(result.toString());
+            
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+        
     }
 }

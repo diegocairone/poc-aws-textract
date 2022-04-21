@@ -1,0 +1,97 @@
+{
+	DocumentMetadata: {Pages: 1},
+	Blocks: [
+		{
+			BlockType: PAGE,
+			Geometry: {
+				BoundingBox: {Width: 1.0,Height: 1.0,Left: 0.0,Top: 0.0},
+				Polygon: [{X: 4.056401E-17,Y: 0.0}, {X: 1.0,Y: 3.697267E-16}, {X: 1.0,Y: 1.0}, {X: 0.0,Y: 1.0}]
+			},
+			Id: 1c9900ab-3b94-4994-9383-3b76ad9790ec,
+			Relationships: [{
+				Type: CHILD,
+				Ids: [dac3059a-8a4d-4f4a-8e85-a3ccef8d01d8, cfd0cf53-495b-4154-ba8b-abd3ff6a9b99, f484ab29-c1bb-4193-a7f2-6e57f6dc4cae]
+			}]
+		}, 
+		{
+			BlockType: LINE,
+			Confidence: 98.05956,
+			Text: Company name: ZOOMCARE,
+			Geometry: {
+					BoundingBox: {Width: 0.62636775,Height: 0.16440433,Left: 0.16849741,Top: 0.50343275},
+					Polygon: [{X: 0.16849741,Y: 0.50343275}, {X: 0.7948652,Y: 0.50343275}, {X: 0.7948652,Y: 0.6678371}, {X: 0.16849741,Y: 0.6678371}]
+			},
+			Id: dac3059a-8a4d-4f4a-8e85-a3ccef8d01d8,
+			Relationships: [{
+				Type: CHILD,
+				Ids: [86b09785-f352-4e27-8f9f-b918295ad9dd, 3bb7d453-6138-42aa-bd31-bbd22a7c2f4e, dd9f00d0-707b-4df3-8e77-8adb6522aba4]
+			}]
+		}, 
+		{
+			BlockType: WORD,
+			Confidence: 99.89313,
+			Text: Company,
+			TextType: PRINTED,
+			Geometry: {
+				BoundingBox: {Width: 0.20155667,Height: 0.14596282,Left: 0.16849741,Top: 0.52187425},
+				Polygon: [{X: 0.16849741,Y: 0.52187425}, {X: 0.3700541,Y: 0.52187425}, {X: 0.3700541,Y: 0.6678371}, {X: 0.16849741,Y: 0.6678371}]
+			},
+			Id: 86b09785-f352-4e27-8f9f-b918295ad9dd
+		}, 
+		{
+			BlockType: WORD,
+			Confidence: 99.70805,
+			Text: name:,
+			TextType: PRINTED,
+			Geometry: {
+				BoundingBox: {Width: 0.12884943,Height: 0.0951876,Left: 0.3797158,Top: 0.5451004},
+				Polygon: [{X: 0.3797158,Y: 0.5451004}, {X: 0.50856525,Y: 0.5451004}, {X: 0.50856525,Y: 0.640288}, {X: 0.3797158,Y: 0.640288}]
+			},
+			Id: 3bb7d453-6138-42aa-bd31-bbd22a7c2f4e
+		}, 
+		{
+			BlockType: WORD,
+			Confidence: 94.5775,
+			Text: ZOOMCARE,
+			TextType: PRINTED,
+			Geometry: {
+				BoundingBox: {Width: 0.27531558,Height: 0.16003785,Left: 0.5195496,Top: 0.50343275},
+				Polygon: [{X: 0.5195496,Y: 0.50343275}, {X: 0.7948652,Y: 0.50343275}, {X: 0.7948652,Y: 0.6634706}, {X: 0.5195496,Y: 0.6634706}]
+			},
+			Id: dd9f00d0-707b-4df3-8e77-8adb6522aba4
+		}, 
+		{
+			BlockType: KEY_VALUE_SET,
+			Confidence: 85.0,
+			Geometry: {
+				BoundingBox: {Width: 0.33956304,Height: 0.14321136,Left: 0.16918741,Top: 0.5239599},
+				Polygon: [{X: 0.16918741,Y: 0.5239599}, {X: 0.50875044,Y: 0.5239599}, {X: 0.50875044,Y: 0.66717124}, {X: 0.16918741,Y: 0.66717124}]
+			},
+			Id: cfd0cf53-495b-4154-ba8b-abd3ff6a9b99,
+			Relationships: [
+				{
+					Type: VALUE,
+					Ids: [f484ab29-c1bb-4193-a7f2-6e57f6dc4cae]
+				}, 
+				{
+					Type: CHILD,
+					Ids: [86b09785-f352-4e27-8f9f-b918295ad9dd, 3bb7d453-6138-42aa-bd31-bbd22a7c2f4e]
+				}],
+			EntityTypes: [KEY]
+		}, 
+		{
+			BlockType: KEY_VALUE_SET,
+			Confidence: 85.0,
+			Geometry: {
+				BoundingBox: {Width: 0.27363217,Height: 0.14209414,Left: 0.5205836,Top: 0.51574475},
+				Polygon: [{X: 0.5205836,Y: 0.51574475}, {X: 0.7942158,Y: 0.51574475}, {X: 0.7942158,Y: 0.6578389}, {X: 0.5205836,Y: 0.6578389}]
+			},
+			Id: f484ab29-c1bb-4193-a7f2-6e57f6dc4cae,
+			Relationships: [{
+				Type: CHILD,
+				Ids: [dd9f00d0-707b-4df3-8e77-8adb6522aba4]}],
+			EntityTypes: [VALUE]
+		}
+	],
+	AnalyzeDocumentModelVersion: 1.0
+}
