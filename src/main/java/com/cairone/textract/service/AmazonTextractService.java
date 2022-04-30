@@ -14,14 +14,15 @@ import com.amazonaws.services.textract.model.AnalyzeDocumentRequest;
 import com.amazonaws.services.textract.model.AnalyzeDocumentResult;
 import com.amazonaws.services.textract.model.Document;
 import com.amazonaws.util.IOUtils;
+import com.cairone.textract.aws.TextractFormDataParser;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class FileService {
+public class AmazonTextractService {
 
-    public Map<String, String> doYourTrick(InputStream is) {
+    public Map<String, String> analyzeDocument(InputStream is) {
         
         try {
             ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(is));

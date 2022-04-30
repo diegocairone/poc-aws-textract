@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cairone.textract.service.FileService;
+import com.cairone.textract.service.AmazonTextractService;
 import com.cairone.textract.ui.response.KeyValueResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -22,14 +22,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FileUploadCtrl {
 
-    private final FileService fileService;
+    private final AmazonTextractService textractService;
     
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<KeyValueResponse> handleUploadFile(
             @RequestParam("file") MultipartFile file) throws IOException {
         
-        Map<String, String> result = fileService.doYourTrick(file.getInputStream());
+        Map<String, String> result = textractService.analyzeDocument(file.getInputStream());
         KeyValueResponse response = new KeyValueResponse(result);
         return ResponseEntity.ok(response);
     }

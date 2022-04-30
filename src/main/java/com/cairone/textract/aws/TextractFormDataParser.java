@@ -1,4 +1,4 @@
-package com.cairone.textract.service;
+package com.cairone.textract.aws;
 
 import java.util.HashMap;
 import java.util.Map;
