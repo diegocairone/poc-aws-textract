@@ -22,35 +22,26 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class AmazonTextractService {
 
-    public Map<String, String> analyzeDocument(InputStream is) {
+    public Map<String, String> analyzeDocument(InputStream is) throws IOException {
         
-        try {
-            ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(is));
-            
-            EndpointConfiguration endpoint = new EndpointConfiguration(
-                    "https://textract.us-east-1.amazonaws.com", "us-east-1");
-            
-            AmazonTextract client = AmazonTextractClientBuilder.standard()
-                    .withEndpointConfiguration(endpoint).build();
-            
-            AnalyzeDocumentRequest request = new AnalyzeDocumentRequest()
-                    .withFeatureTypes("FORMS")
-                    .withDocument(new Document().withBytes(imageBytes));
-            
-            AnalyzeDocumentResult result = client.analyzeDocument(request);
-            TextractFormDataParser parser = new TextractFormDataParser();
-            
-            Map<String, String> kv = parser.parse(result).getKeyValueSet();
-            
-            kv.forEach((key, value) -> {
-                log.debug("{} => {}", key, value);
-            });
-            
-            return kv;
-            
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
+        ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(is));
+        
+        EndpointConfiguration endpoint = new EndpointConfiguration(
+                "https://textract.us-east-1.amazonaws.com", "us-east-1");
+        
+        AmazonTextract client = AmazonTextractClientBuilder.standard()
+                .withEndpointConfiguration(endpoint).build();
+        
+        AnalyzeDocumentRequest request = new AnalyzeDocumentRequest()
+                .withFeatureTypes("FORMS")
+                .withDocument(new Document().withBytes(imageBytes));
+        
+        AnalyzeDocumentResult result = client.analyzeDocument(request);
+        TextractFormDataParser parser = new TextractFormDataParser();
+        
+        Map<String, String> kv = parser.parse(result).getKeyValueSet();
+        kv.forEach((key, value) -> log.debug("{} => {}", key, value));
+        
+        return kv;
     }
 }

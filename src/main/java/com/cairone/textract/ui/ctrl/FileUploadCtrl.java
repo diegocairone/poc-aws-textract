@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.AmazonServiceException;
 import com.cairone.textract.service.AmazonTextractService;
+import com.cairone.textract.ui.exception.BadRequestException;
 import com.cairone.textract.ui.response.KeyValueResponse;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/fileupload")
 @RequiredArgsConstructor
@@ -27,10 +31,15 @@ public class FileUploadCtrl {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<KeyValueResponse> handleUploadFile(
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @RequestParam("file") MultipartFile file) {
         
-        Map<String, String> result = textractService.analyzeDocument(file.getInputStream());
-        KeyValueResponse response = new KeyValueResponse(result);
-        return ResponseEntity.ok(response);
+        try {
+            Map<String, String> result = textractService.analyzeDocument(file.getInputStream());
+            KeyValueResponse response = new KeyValueResponse(result);
+            return ResponseEntity.ok(response);
+        } catch (IOException | AmazonServiceException e) {
+            log.error(e.getMessage());
+            throw new BadRequestException(e, e.getMessage());
+        }
     }
 }
