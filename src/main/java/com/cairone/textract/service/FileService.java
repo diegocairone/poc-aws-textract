@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class FileService {
 
-    public void doYourTrick(InputStream is) {
+    public Map<String, String> doYourTrick(InputStream is) {
         
         try {
             ByteBuffer imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(is));
@@ -37,15 +37,15 @@ public class FileService {
                     .withDocument(new Document().withBytes(imageBytes));
             
             AnalyzeDocumentResult result = client.analyzeDocument(request);
-            
-            //System.out.println(result.toString());
             TextractFormDataParser parser = new TextractFormDataParser();
             
             Map<String, String> kv = parser.parse(result).getKeyValueSet();
             
             kv.forEach((key, value) -> {
-                log.info("{} => {}", key, value);
+                log.debug("{} => {}", key, value);
             });
+            
+            return kv;
             
         } catch (IOException e) {
             log.error(e.getMessage());
