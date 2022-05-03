@@ -121,15 +121,18 @@ public class TextractFormDataParser {
                 });
             });
         
-        valueSetBlock.getRelationships()
-        .stream()
-        .filter(p -> p.getType().equals("CHILD")).forEach(relationship -> {
-            relationship.getIds().forEach(wordId -> {
-               Block word = this.wordBlocks.get(wordId);
-               String text = word.getText();
-               valueBuilder.append(text + " ");
+        if (valueSetBlock.getRelationships() != null) {
+            
+            valueSetBlock.getRelationships()
+            .stream()
+            .filter(p -> p.getType().equals("CHILD")).forEach(relationship -> {
+                relationship.getIds().forEach(wordId -> {
+                   Block word = this.wordBlocks.get(wordId);
+                   String text = word.getText();
+                   valueBuilder.append(text + " ");
+                });
             });
-        });
+        }
         
         String keyText = keyBuilder.toString().trim();
         String valueText = valueBuilder.toString().trim();
