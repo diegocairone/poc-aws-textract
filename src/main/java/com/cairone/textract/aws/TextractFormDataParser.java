@@ -1,6 +1,9 @@
 package com.cairone.textract.aws;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
@@ -18,7 +21,7 @@ public class TextractFormDataParser {
     private AnalyzeDocumentResult result;
     
     // destination
-    private Map<String, String> keyValueSet;
+    private Map<String, TextractValue> keyValueSet;
     
     private Map<String, Block> allBlocks;
     private Map<String, Block> keySetBlocks;
@@ -55,7 +58,7 @@ public class TextractFormDataParser {
         return this;
     }
     
-    public Map<String, String> getKeyValueSet() {
+    public Map<String, TextractValue> getKeyValueSet() {
         return keyValueSet;
     }
     
@@ -108,6 +111,8 @@ public class TextractFormDataParser {
         Block keySetBlock = entry.getKey();
         Block valueSetBlock = entry.getValue();
         
+        List<BigDecimal> accuracies = new ArrayList<>();
+        
         final StringBuilder keyBuilder = new StringBuilder();
         final StringBuilder valueBuilder = new StringBuilder();
         
@@ -116,8 +121,10 @@ public class TextractFormDataParser {
             .filter(p -> p.getType().equals("CHILD")).forEach(relationship -> {
                 relationship.getIds().forEach(wordId -> {
                    Block word = this.wordBlocks.get(wordId);
+                   BigDecimal confidence = new BigDecimal(word.getConfidence());
                    String text = word.getText();
                    keyBuilder.append(text + " ");
+                   accuracies.add(confidence);
                 });
             });
         
@@ -128,8 +135,10 @@ public class TextractFormDataParser {
             .filter(p -> p.getType().equals("CHILD")).forEach(relationship -> {
                 relationship.getIds().forEach(wordId -> {
                    Block word = this.wordBlocks.get(wordId);
+                   BigDecimal confidence = new BigDecimal(word.getConfidence());
                    String text = word.getText();
                    valueBuilder.append(text + " ");
+                   accuracies.add(confidence);
                 });
             });
         }
@@ -137,6 +146,9 @@ public class TextractFormDataParser {
         String keyText = keyBuilder.toString().trim();
         String valueText = valueBuilder.toString().trim();
         
-        this.keyValueSet.put(keyText, valueText);
+        BigDecimal accuracy = accuracies.stream().min(BigDecimal::compareTo).get();
+        TextractValue value = new TextractValue(valueText, accuracy);
+        
+        this.keyValueSet.put(keyText, value);
     }
 }

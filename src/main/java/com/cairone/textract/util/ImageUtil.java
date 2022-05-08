@@ -10,7 +10,9 @@ import javax.imageio.ImageIO;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.cairone.textract.AppException;
 import com.cairone.textract.ui.exception.BadRequestException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +36,17 @@ public class ImageUtil {
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new BadRequestException(e, e.getMessage());
+        }
+    }
+    
+    public static InputStream extractInputStream(MultipartFile file) throws IOException {
+        if (file.getContentType().equals("application/pdf")) {
+            InputStream pdfIS = file.getInputStream();
+            return ImageUtil.pdfPageToPngImage(pdfIS);
+        } else if (file.getContentType().startsWith("image/")) {
+            return file.getInputStream();
+        } else {
+            throw new AppException("File is invalid!");
         }
     }
 }
