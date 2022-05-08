@@ -1,6 +1,7 @@
 package com.cairone.textract.ui.ctrl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.AmazonServiceException;
+import com.cairone.textract.AppException;
 import com.cairone.textract.service.AmazonTextractService;
 import com.cairone.textract.ui.exception.BadRequestException;
 import com.cairone.textract.ui.response.KeyValueResponse;
+import com.cairone.textract.util.ImageUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +37,23 @@ public class FileUploadCtrl {
             @RequestParam("file") MultipartFile file) {
         
         try {
-            Map<String, String> result = textractService.analyzeDocument(file.getInputStream());
+
+            InputStream is;
+            
+            if (file.getContentType().equals("application/pdf")) {
+                InputStream pdfIS = file.getInputStream();
+                is = ImageUtil.pdfPageToPngImage(pdfIS);
+            } else if (file.getContentType().startsWith("image/")) {
+                is = file.getInputStream();
+            } else {
+                throw new AppException("File is invalid!");
+            }
+            
+            Map<String, String> result = textractService.analyzeDocument(is);
             KeyValueResponse response = new KeyValueResponse(result);
+            
             return ResponseEntity.ok(response);
+            
         } catch (IOException | AmazonServiceException e) {
             log.error(e.getMessage());
             throw new BadRequestException(e, e.getMessage());
