@@ -19,6 +19,7 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<aws-sdk.version>1.12.202</aws-sdk.version>
 	</properties>
 
 	<dependencies>
@@ -49,8 +50,14 @@
 
 		<dependency>
 			<groupId>com.amazonaws</groupId>
-			<artifactId>aws-java-sdk</artifactId>
-			<version>1.12.202</version>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>${aws-sdk.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-textract</artifactId>
+			<version>${aws-sdk.version}</version>
 		</dependency>
 
 		<!-- OTHER DEPENDENCIES -->
