@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "8289d8d9-6dd7-4bb3-a673-c90d1f8fa82a",
+		"name": "POC AWS Textract - Content creation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16971956"
+	},
+	"item": [
+		{
+			"name": "Content creation and query",
+			"item": [
+				{
+					"name": "Get content based on File descriptor by ID",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/:id/content",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								":id",
+								"content"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c085169e-6a75-4fa1-a0ce-d331d760451d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get File descriptor by ID",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {},
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/:id",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "c085169e-6a75-4fa1-a0ce-d331d760451d"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload content for File descriptor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/diego.cairone/Devspace/git-repos/github/diegocairone/poc-aws-textract/src/main/resources/insurance-card-front-and-back-2-pages.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/:id/content",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								":id",
+								"content"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "4eb515fc-5a2b-42fe-8909-29509f8149cd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create File descriptor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"this is a test\",\n    \"filename\": \"insurance-card-front-and-back-2-pages.pdf\",\n    \"filetype\": \"application/pdf\",\n    \"isphi\": false,\n    \"attachedTo\": \"ENTITY_ONE\",\n    \"attachedToId\": \"abc\",\n    \"isThumbnail\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create File descriptor and upload content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "description",
+									"value": "this is a test",
+									"type": "text"
+								},
+								{
+									"key": "filename",
+									"value": "insurance-card-front-and-back-2-pages.pdf",
+									"type": "text"
+								},
+								{
+									"key": "filetype",
+									"value": "application/pdf",
+									"type": "text"
+								},
+								{
+									"key": "isphi",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "attachedTo",
+									"value": "ENTITY_ONE",
+									"type": "text"
+								},
+								{
+									"key": "attachedToId",
+									"value": "abc",
+									"type": "text"
+								},
+								{
+									"key": "isThumbnail",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/diego.cairone/Devspace/git-repos/github/diegocairone/poc-aws-textract/src/main/resources/generic-card-front-only.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/content",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								"content"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AWS Textract usage",
+			"item": [
+				{
+					"name": "Apply AWS Textract to a File descriptor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/:id/textract",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								":id",
+								"textract"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "dd4a2280-b359-4010-9301-7f558af38376"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Apply AWS Textract on uploaded content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/diego.cairone/Devspace/git-repos/github/diegocairone/poc-aws-textract/src/main/resources/generic-card-front-only.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/fileupload/textract",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"fileupload",
+								"textract"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
