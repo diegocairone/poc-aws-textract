@@ -42,14 +42,6 @@ public class FileUploadCtrl {
     private final AmazonTextractService textractService;
     private final DataService dataService;
     
-    @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<FileDescriptor> createFileDescriptor(
-            @RequestBody FileDescriptorDto fileDescriptorDto) {
-        FileDescriptor fileDescriptor = dataService.createFile("principal", fileDescriptorDto);
-        return ResponseEntity.ok(fileDescriptor);
-    }
-
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<FileDescriptor> getFileDescriptorById(@PathVariable("id") String id) {
@@ -59,7 +51,7 @@ public class FileUploadCtrl {
                         () -> new NotFoundException("File descriptor for ID %s not found"));
     }
     
-    @GetMapping("/{id}/content")
+    @GetMapping("{id}/content")
     public ResponseEntity<byte[]> getContentById(
             @PathVariable("id") String id) {
         return dataService.findContentById(id)
@@ -77,6 +69,41 @@ public class FileUploadCtrl {
                 })
                 .orElseThrow(
                         () -> new NotFoundException("File descriptor for ID %s not found", id));
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<FileDescriptor> createFileDescriptor(
+            @RequestBody FileDescriptorDto fileDescriptorDto) {
+        FileDescriptor fileDescriptor = dataService.createFile("principal", fileDescriptorDto);
+        return ResponseEntity.ok(fileDescriptor);
+    }
+
+    @PostMapping("/content")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<FileDescriptor> createFileDescriptorAndUploadContent(
+            FileDescriptorDto fileDescriptorDto,
+            @RequestParam("file") MultipartFile file) {
+        
+        FileDescriptor fileDescriptor = dataService.createFile("principal", fileDescriptorDto);
+        String id = fileDescriptor.getId().toString();
+
+        try (InputStream buffered = new BufferedInputStream(file.getInputStream())) {
+            
+            String contentType = ImageUtil.detectMimeType(buffered, file.getName());
+            
+            if (contentType.startsWith("image/")) {
+                dataService.uploadSingleContent(id, file.getSize(), buffered);
+            } else if (contentType.equals(CONTENT_TYPE_PDF)) {
+                dataService.uploadPdfContent(id, file.getSize(), buffered);
+            } else {
+                throw new AppException("Content type not supported");
+            }
+            return ResponseEntity.ok(fileDescriptor);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new BadRequestException(e, e.getMessage());
+        }
     }
 
     @PostMapping("{id}/content")
